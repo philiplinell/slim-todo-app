@@ -36,7 +36,8 @@ class UserController extends Controller
         try {
             $stmt->execute();            
         } catch (PDOException $e) {
-            return $response->withStatus(400);
+            $this->c->flash->addMessage('error', 'Could not create user. ');
+            return $response->withRedirect($this->c->router->pathFor('user.register'));
         }
         return $response->withRedirect($this->c->router->pathFor('todos.index'));
         

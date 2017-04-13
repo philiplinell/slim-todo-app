@@ -2,7 +2,14 @@
 
 {% block title %}New User{% endblock %}
 
+
 {% block content %}
+  {% if flash.getMessage('error').0 %}
+    <strong>
+      {{ flash.getMessage('error').0 }}
+    </strong>
+  {% endif %}
+  
   <h3>Register new user</h3>
   <form action="{{ path_for('user.create') }}" method="POST">
     Username <br />

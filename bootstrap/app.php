@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $config['displayErrorDetails'] = true;
@@ -8,6 +10,11 @@ $app = new \Slim\App(["settings" => $config]);
 
 // Get container
 $container = $app->getContainer();
+
+// Add slim/flash
+$container['flash'] = function ($container) {
+    return new \Slim\Flash\Messages();
+};
 
 // Register component on container
 $container['view'] = function ($container) {
@@ -19,6 +26,8 @@ $container['view'] = function ($container) {
     $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
 
+    // Add flash message to all views
+    $view->getEnvironment()->addGlobal('flash', $container['flash']);
     return $view;
 };
 
