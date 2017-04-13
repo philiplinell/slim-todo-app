@@ -3,8 +3,19 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-  <h1>Home View</h1>
+  <h1>Start Page</h1>
 
-  <a href="{{ path_for('users.index') }}">Users List</a>
-  
+  <h3>Login</h3>
+  <form action="{{ path_for('user.login') }}" method="POST">
+    Username <br/>
+    <input name="username" type="text"/>
+    <br/>
+    Password <br/>
+    <input name="password" type="password" />
+    <br />
+    <input type="reset" value="Cancel">
+    <input type="submit" value="Login">
+    
+  </form>
+  <p>No account? Create one <a href="{{ path_for('user.register') }}">here</a></p>  
 {% endblock %}

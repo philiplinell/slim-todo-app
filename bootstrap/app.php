@@ -22,4 +22,11 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+// Database
+$container['db'] = function($container) {
+    $pdo = new PDO("sqlite:" . __DIR__ . '/../database/todoapp.db');
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    return $pdo;  
+};
+
 require_once __DIR__ . '/../routes/web.php';
