@@ -1,5 +1,7 @@
 <?php
 
+use Respect\Validation\Validator as v;
+
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -11,7 +13,7 @@ $app = new \Slim\App(["settings" => $config]);
 // Get container
 $container = $app->getContainer();
 
-// Add slim/flash
+// Add slim/flashxb
 $container['flash'] = function ($container) {
     return new \Slim\Flash\Messages();
 };
@@ -37,5 +39,16 @@ $container['db'] = function($container) {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $pdo;  
 };
+
+// Validator
+$container['validator'] = function ($container) {
+    return new App\Validation\Validator;
+};
+
+$app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
+$app->add(new \App\Middleware\OldInputMiddleware($container));
+
+// Specify in which folder our Validation rules are
+v::with('App\\Validation\\Rules\\');
 
 require_once __DIR__ . '/../routes/web.php';

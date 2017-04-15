@@ -9,14 +9,25 @@
       {{ flash.getMessage('error').0 }}
     </strong>
   {% endif %}
-  
+
   <h3>Register new user</h3>
+  {% if errors %}
+    <div class="help-block">
+      <ul>
+        {% for error in errors %}
+          {% for message in error %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
   <form action="{{ path_for('user.create') }}" method="POST">
     Username <br />
-    <input type="text" name="username" />
+    <input type="text" name="username" value="{{ old.username }}"/>
     <br />
     Email <br />
-    <input type="text" name="email" />
+    <input type="email" name="email" value="{{ old.email }}"/>
     <br />
     Password <br />
     <input type="password" name="password" />
