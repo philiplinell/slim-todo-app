@@ -31,8 +31,8 @@ class UserController extends Controller
     {
 
         $validation = $this->c->validator->validate($request, [
-            'email' => v::noWhitespace()->notEmpty()->emailAvailable($this->c),
-            'username' => v::notEmpty()->alpha()->UsernameAvailable($this->c),
+            'email' => v::noWhitespace()->notEmpty()->emailAvailable($this->c->db),
+            'username' => v::notEmpty()->alpha()->UsernameAvailable($this->c->db),
             'password' => v::noWhitespace()->notEmpty(),
         ]);
 
