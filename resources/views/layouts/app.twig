@@ -5,7 +5,8 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-
+    {% include 'partials/navigation.twig' %}
+    
     {% block content %}{% endblock %}
     
   </body>
