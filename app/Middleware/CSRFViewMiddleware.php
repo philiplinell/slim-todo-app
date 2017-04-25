@@ -7,6 +7,7 @@ class CSRFViewMiddleware extends Middleware
 
     public function __invoke($request, $response, $next)
     {
+        $request = $this->container->csrf->generateNewToken($request);
         $this->container->view->getEnvironment()->addGlobal('csrf', [
             'field' => '
                 <input type="hidden" name="' . $this->container->csrf->getTokenNameKey() . '" value="' . $this->container->csrf->getTokenName() . '">
