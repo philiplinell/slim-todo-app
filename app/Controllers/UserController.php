@@ -29,7 +29,7 @@ class UserController extends Controller
 
     public function createUser($request, $response)
     {
-
+     
         $validation = $this->c->validator->validate($request, [
             'email' => v::noWhitespace()->notEmpty()->emailAvailable($this->c->db),
             'username' => v::notEmpty()->alpha()->UsernameAvailable($this->c->db),

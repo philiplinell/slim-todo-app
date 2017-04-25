@@ -45,8 +45,15 @@ $container['validator'] = function ($container) {
     return new App\Validation\Validator;
 };
 
+// CSRF
+$container['csrf'] = function ($container) {
+    return new \Slim\Csrf\Guard;
+};
+
+// Middleware
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
 $app->add(new \App\Middleware\OldInputMiddleware($container));
+$app->add(new \App\Middleware\CSRFViewMiddleware($container));
 
 // Specify in which folder our Validation rules are
 v::with('App\\Validation\\Rules\\');
