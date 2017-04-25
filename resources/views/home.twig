@@ -6,7 +6,7 @@
   <h1>Start Page</h1>
 
   <h3>Login</h3>
-  <form action="{{ path_for('user.login') }}" method="POST">
+  <form action="{{ path_for('auth.signin') }}" method="POST">
     Username <br/>
     <input name="username" type="text"/>
     <br/>
@@ -17,5 +17,5 @@
     <input type="submit" value="Login">
     
   </form>
-  <p>No account? Create one <a href="{{ path_for('user.register') }}">here</a></p>  
+  <p>No account? Create one <a href="{{ path_for('auth.signup') }}">here</a></p>  
 {% endblock %}

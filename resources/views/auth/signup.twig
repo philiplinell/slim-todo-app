@@ -22,7 +22,7 @@
       </ul>
     </div>
   {% endif %}
-  <form action="{{ path_for('user.create') }}" method="POST">
+  <form action="{{ path_for('auth.signup') }}" method="POST">
     Username <br />
     <input type="text" name="username" value="{{ old.username }}"/>
     <br />
