@@ -55,8 +55,9 @@ class AuthController extends Controller
         }
         $params = $request->getParams();
         $stmt = $this->c->db->prepare("INSERT INTO users (user_pw, user_name, user_email) VALUES (:user_pw, :user_name, :user_email) ");
-    
-        $stmt->bindParam(':user_pw', password_hash($params['password'], PASSWORD_DEFAULT));
+
+        $userPassword = password_hash($params['password'], PASSWORD_DEFAULT);
+        $stmt->bindParam(':user_pw', $userPassword);
         $stmt->bindParam(':user_name', $params['username']);
         $stmt->bindParam(':user_email', $params['email']);
         try {

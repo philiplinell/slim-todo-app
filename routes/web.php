@@ -4,6 +4,8 @@ use App\Controllers\UserController;
 use App\Controllers\TodoController;
 use App\Controllers\AuthController;
 use App\Controllers\PasswordController;
+use App\Middleware\AuthMiddleware;
+use App\Middleware\GuestMiddleware;
 
 $app->get('/', function($request, $response) {
     return $this->view->render($response, 'home.twig');
@@ -11,16 +13,21 @@ $app->get('/', function($request, $response) {
 
 $app->get('/users', UserController::class . ':index')->setName('users.index');
 
-$app->get('/auth/signup', AuthController::class . ':getSignUp')->setName('auth.signup');
-$app->post('/auth/signup', AuthController::class . ':postSignUp');
+$app->group('', function() {
+    $this->get('/auth/signup', AuthController::class . ':getSignUp')->setName('auth.signup');
+    $this->post('/auth/signup', AuthController::class . ':postSignUp');
 
-$app->get('/auth/signin', AuthController::class . ':getSignIn')->setName('auth.signin');
-$app->post('/auth/signin', AuthController::class . ':postSignIn');
+    $this->get('/auth/signin', AuthController::class . ':getSignIn')->setName('auth.signin');
+    $this->post('/auth/signin', AuthController::class . ':postSignIn');
+})->add(new GuestMiddleware($container));
 
-$app->get('/auth/signout', AuthController::class . ':getSignOut')->setName('auth.signout');
+$app->group('', function() {
+    $this->get('/auth/signout', AuthController::class . ':getSignOut')->setName('auth.signout');
+    $this->get('/auth/password/change', PasswordController::class . ':getChangePassword')->setName('auth.password.change');
+    $this->post('/auth/password/change', PasswordController::class . ':postChangePassword');
 
-$app->get('/todos', TodoController::class . ':index')->setName('todos.index');
+    $this->get('/todos', TodoController::class . ':index')->setName('todos.index');
+})->add(new AuthMiddleware($container));
 
-$app->get('/auth/password/change', PasswordController::class . ':getChangePassword')->setName('auth.password.change');
-$app->post('/auth/password/change', PasswordController::class . ':postChangePassword');
+
 
