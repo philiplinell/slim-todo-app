@@ -69,4 +69,23 @@ class Auth {
     {
         unset($_SESSION['user']);
     }
+
+    public function changePassword($newPassword)
+    {
+        $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt = $this->db->prepare('UPDATE users SET user_pw = :user_pw WHERE user_id = :user_id');
+        $stmt->bindparam(':user_pw', $newPassword);
+        $stmt->bindParam(':user_id', $this->user()->user_id);
+        try {
+            $stmt->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            var_dump($e->getMessage());
+            die();
+            // TODO: Logg to logger
+            return false;
+        }
+                                  
+    }
 }

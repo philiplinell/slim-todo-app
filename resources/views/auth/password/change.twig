@@ -1,0 +1,21 @@
+{% extends 'layouts/app.twig' %}
+
+{% block title %}Change Password{% endblock %}
+
+
+{% block content %}
+  <h3>Change Password</h3>
+  <!-- Add displaying of error message from validator -->
+  
+  <form action="{{ path_for('auth.password.change') }}" method="POST">
+    Old Password <br />
+    <input type="password" name="password_old"/>
+    <br />
+    New Password <br />
+    <input type="password" name="password" />
+    <br />
+    <input type="submit" value="Change Password">
+
+    {{ csrf.field | raw }}
+  </form>
+{% endblock %}

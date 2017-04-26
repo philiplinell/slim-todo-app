@@ -3,6 +3,7 @@
 use App\Controllers\UserController;
 use App\Controllers\TodoController;
 use App\Controllers\AuthController;
+use App\Controllers\PasswordController;
 
 $app->get('/', function($request, $response) {
     return $this->view->render($response, 'home.twig');
@@ -20,4 +21,6 @@ $app->get('/auth/signout', AuthController::class . ':getSignOut')->setName('auth
 
 $app->get('/todos', TodoController::class . ':index')->setName('todos.index');
 
+$app->get('/auth/password/change', PasswordController::class . ':getChangePassword')->setName('auth.password.change');
+$app->post('/auth/password/change', PasswordController::class . ':postChangePassword');
 
