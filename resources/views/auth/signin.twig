@@ -4,24 +4,7 @@
 
 
 {% block content %}
-  {% if flash.getMessage('error').0 %}
-    <strong>
-      {{ flash.getMessage('error').0 }}
-    </strong>
-  {% endif %}
 
-  <h3>Sign In</h3>
-  {% if errors %}
-    <div class="help-block">
-      <ul>
-        {% for error in errors %}
-          {% for message in error %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
   <form action="{{ path_for('auth.signin') }}" method="POST">
     Email <br />
     <input type="email" name="email" value="{{ old.email }}"/>

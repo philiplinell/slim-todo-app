@@ -13,7 +13,7 @@ $app = new \Slim\App(["settings" => $config]);
 // Get container
 $container = $app->getContainer();
 
-// Add slim/flashxb
+// Add slim/flash
 $container['flash'] = function ($container) {
     return new \Slim\Flash\Messages();
 };

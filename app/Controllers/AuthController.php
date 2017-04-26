@@ -13,6 +13,7 @@ class AuthController extends Controller
     public function getSignOut($request, $response)
     {
         $this->c->auth->logout();
+        $this->c->flash->addMessage('info', 'You have been logged out. ');
         return $response->withRedirect($this->c->router->pathFor('home'));
     }
     
@@ -29,7 +30,7 @@ class AuthController extends Controller
         );
 
         if (!$auth) {
-            // TODO: Add flash messages
+            $this->c->flash->addMessage('error', 'Could not sign you in with those details. ');
             return $response->withRedirect($this->c->router->pathFor('auth.signin'));
         }
         return $response->withRedirect($this->c->router->pathFor('home'));
@@ -50,7 +51,7 @@ class AuthController extends Controller
         ]);
 
         if ($validation->failed()) {
-            return $response->withRedirect($this->c->router->pathFor('user.register'));
+            return $response->withRedirect($this->c->router->pathFor('auth.signup'));
         }
         $params = $request->getParams();
         $stmt = $this->c->db->prepare("INSERT INTO users (user_pw, user_name, user_email) VALUES (:user_pw, :user_name, :user_email) ");
@@ -62,9 +63,14 @@ class AuthController extends Controller
             $stmt->execute();
         } catch (PDOException $e) {
             $this->c->flash->addMessage('error', 'Could not create user. ');
-            return $response->withRedirect($this->c->router->pathFor('user.register'));
+            return $response->withRedirect($this->c->router->pathFor('auth.signup'));
         }
+
+        // Sign in user
         $this->c->auth->attempt($params['email'], $params['password']);
+
+        $this->c->flash->addMessage('info', 'You have been signed up!');
+        
         return $response->withRedirect($this->c->router->pathFor('todos.index'));
     }
 
