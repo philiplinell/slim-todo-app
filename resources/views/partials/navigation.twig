@@ -1,7 +1,12 @@
 <nav>
   <ul>
     <li><a href="{{ path_for('home') }}">Home</a></li>
-    <li><a href="{{ path_for('auth.signin') }}">Login</a></li>
+    {% if auth.check %}
+      <li><a href="#">{{ auth.user.user_name }} Profile</a></li>
+      <li><a href="{{ path_for('auth.signout') }}">Logout</a></li>
+    {% else %}
+      <li><a href="{{ path_for('auth.signin') }}">Login</a></li>
+    {% endif %}
     <li><a href="#">Todos</a></li>
   </ul>
 </nav>

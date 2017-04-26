@@ -6,17 +6,40 @@ use PDO;
 use PDOException;
 use App\Models\User;
 
-
 class Auth {
 
-protected $db;
+    protected $db;
 
-public function __construct($db)
-{
-    $this->db = $db;
-}
+    public function __construct($db)
+    {
+        $this->db = $db;
+    }
 
-public function attempt($email, $password)
+    public function user()
+    {
+        if (!isset($_SESSION['user'])) {
+            return false;
+        }
+        $stmt = $this->db->prepare('SELECT * FROM USERS WHERE user_id = :user_id');
+        $stmt->bindParam(':user_id', $_SESSION['user']);
+        try {
+            $stmt->execute();
+            $stmt->setFetchMode(PDO::FETCH_CLASS, User::class);
+            $user = $stmt->fetch();
+
+            return $user;
+        } catch (PDOException $e) {
+            // TODO logg $e message
+            return false;
+        }
+    }
+    
+    public function check()
+    {
+        return isset($_SESSION['user']);
+    }
+    
+    public function attempt($email, $password)
     {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE user_email = :user_email');
         $stmt->bindParam(':user_email', $email);
@@ -28,17 +51,22 @@ public function attempt($email, $password)
             if (!$user) {
                 return false;
             }
-            
+
             if (password_verify($password, $user->user_pw)) {
                 $_SESSION['user'] = $user->user_id;
                 return true;
             }
-            
+
         } catch (PDOException $e) {
             var_dump($e->getMessage());
             // TODO: Log error
             return false;
         }
         return false;
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['user']);
     }
 }

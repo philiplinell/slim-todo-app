@@ -10,6 +10,12 @@ use Respect\Validation\Validator as v;
 class AuthController extends Controller
 {
 
+    public function getSignOut($request, $response)
+    {
+        $this->c->auth->logout();
+        return $response->withRedirect($this->c->router->pathFor('home'));
+    }
+    
     public function getSignIn($request, $response)
     {
         return $this->c->view->render($response, 'auth/signin.twig');
@@ -58,6 +64,7 @@ class AuthController extends Controller
             $this->c->flash->addMessage('error', 'Could not create user. ');
             return $response->withRedirect($this->c->router->pathFor('user.register'));
         }
+        $this->c->auth->attempt($params['email'], $params['password']);
         return $response->withRedirect($this->c->router->pathFor('todos.index'));
     }
 

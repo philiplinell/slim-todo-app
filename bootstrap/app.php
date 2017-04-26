@@ -18,6 +18,11 @@ $container['flash'] = function ($container) {
     return new \Slim\Flash\Messages();
 };
 
+// Authentication
+$container['auth'] = function ($container) {
+    return new \App\Auth\Auth($container['db']);
+};
+
 // Register component on container
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
@@ -30,6 +35,13 @@ $container['view'] = function ($container) {
 
     // Add flash message to all views
     $view->getEnvironment()->addGlobal('flash', $container['flash']);
+
+    // Add auth to all view
+    $view->getEnvironment()->addGlobal('auth', [
+        'check' => $container->auth->check(),
+        'user' => $container->auth->user(),
+    ]);
+    
     return $view;
 };
 
@@ -50,10 +62,7 @@ $container['csrf'] = function ($container) {
     return new \Slim\Csrf\Guard;
 };
 
-// Authentication
-$container['auth'] = function ($container) {
-    return new \App\Auth\Auth($container['db']);
-};
+
 
 // Middleware
 $app->add(new \App\Middleware\ValidationErrorsMiddleware($container));
