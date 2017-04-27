@@ -47,7 +47,7 @@ class Auth {
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_CLASS, User::class);
             $user = $stmt->fetch();
-
+                
             if (!$user) {
                 return false;
             }
@@ -83,7 +83,7 @@ class Auth {
         } catch (PDOException $e) {
             var_dump($e->getMessage());
             die();
-            // TODO: Logg to logger
+            // TODO: Logg error
             return false;
         }
                                   
