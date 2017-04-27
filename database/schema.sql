@@ -12,6 +12,7 @@ CREATE TABLE users(
 DROP TABLE IF exists todos;
 
 CREATE TABLE todos(
+       todo_id          INTEGER PRIMARY KEY,
        todo_done        INTEGER NOT NULL,
        todo_description TEXT NOT NULL,
        todo_done_at     TEXT,

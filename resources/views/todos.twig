@@ -4,10 +4,14 @@
 
 {% block content %}
   <h1>Todo Page</h1>
-  
+
   <ul>
     {% for todo in todos %}
-      <li>{{ todo.todo_description }}</li>
+      {% if todo.todo_done == 1 %}
+        <li>{{ todo.todo_description }} <a href="{{ path_for('todos.setundone', { id: todo.todo_id }) }}">Mark as not done</a> </li>
+      {% else %}
+        <li>{{ todo.todo_description }} <a href="{{ path_for('todos.setdone', { id: todo.todo_id }) }}">Mark done</a> </li>
+      {% endif %}
     {% endfor %}
   </ul>
   

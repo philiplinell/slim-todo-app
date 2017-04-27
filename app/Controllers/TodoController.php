@@ -27,4 +27,26 @@ class TodoController extends Controller
 
         return $this->c->view->render($response, 'todos.twig');
     }
+
+    public function done($request, $response, $args)
+    {
+        $this->markTodoAsDone($args['id']);
+        return $response->withRedirect($this->c->router->pathFor('todos.index'));
+    }
+
+    public function undone($request, $response, $args)
+    {
+        $this->markTodoAsDone($args['id'], false);
+        return $response->withRedirect($this->c->router->pathFor('todos.index'));
+    }
+    
+    private function markTodoAsDone(int $id, bool $status = true) {
+        $stmt = $this->c->db->prepare('UPDATE todos SET todo_done = :status WHERE todo_id = :id AND user_id = :user_id');
+        $statusAsInt = $status ? 1 : 0;
+        $stmt->execute([
+            ':status' => $statusAsInt,
+            ':id'     => $id,
+            ':user_id' => $_SESSION['user']
+        ]);        
+    }
 }

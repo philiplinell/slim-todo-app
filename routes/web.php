@@ -13,6 +13,7 @@ $app->get('/', function($request, $response) {
 
 $app->get('/users', UserController::class . ':index')->setName('users.index');
 
+// ------ Not Logged in resources ----
 $app->group('', function() {
     $this->get('/auth/signup', AuthController::class . ':getSignUp')->setName('auth.signup');
     $this->post('/auth/signup', AuthController::class . ':postSignUp');
@@ -21,12 +22,15 @@ $app->group('', function() {
     $this->post('/auth/signin', AuthController::class . ':postSignIn');
 })->add(new GuestMiddleware($container));
 
+// ------ Logged in resources ----
 $app->group('', function() {
     $this->get('/auth/signout', AuthController::class . ':getSignOut')->setName('auth.signout');
     $this->get('/auth/password/change', PasswordController::class . ':getChangePassword')->setName('auth.password.change');
     $this->post('/auth/password/change', PasswordController::class . ':postChangePassword');
 
     $this->get('/todos', TodoController::class . ':index')->setName('todos.index');
+    $this->get('/todos/setdone/{id}', TodoController::class . ':done')->setName('todos.setdone');
+    $this->get('/todos/setundone/{id}', TodoController::class . ':undone')->setName('todos.setundone');
 })->add(new AuthMiddleware($container));
 
 
