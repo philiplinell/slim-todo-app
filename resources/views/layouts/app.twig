@@ -2,13 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
+    <link href="{{ base_url() }}/css/bootstrap.css" rel="stylesheet">
+    <link href="{{ base_url() }}/css/style.css" rel="stylesheet">
   </head>
   <body>
     {% include 'partials/navigation.twig' %}
-    {% include 'partials/flash.twig' %}
-    
-    {% block content %}{% endblock %}
-    
+    <div class="container">
+      {% include 'partials/flash.twig' %}
+      {% block content %}{% endblock %}
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="{{ base_url() }}/js/bootstrap.min.js"></script>
   </body>
 </html>

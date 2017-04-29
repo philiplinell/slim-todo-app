@@ -31,6 +31,7 @@ $app->group('', function() {
     $this->get('/todos', TodoController::class . ':index')->setName('todos.index');
     $this->get('/todos/setdone/{id}', TodoController::class . ':done')->setName('todos.setdone');
     $this->get('/todos/setundone/{id}', TodoController::class . ':undone')->setName('todos.setundone');
+    $this->post('/todos/create', TodoController::class . ':create')->setName('todos.create');
 })->add(new AuthMiddleware($container));
 
 

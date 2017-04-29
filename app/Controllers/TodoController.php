@@ -7,6 +7,17 @@ use PDO;
 
 class TodoController extends Controller
 {
+
+    private $todoPlaceholders = [
+        'Buy secret vulcano island',
+        'Hollow out vulcano',
+        'Buy furry white cat',
+        'Sing in the shower',
+        'Watch Guardians of the Galaxy 3',
+        'Build spaceship',
+        'Buy supercomputer'
+    ];
+    
     public function index($request, $response)
     {
         $stmt = $this->c->db->prepare('SELECT * FROM todos WHERE user_id = :user_id');
@@ -17,7 +28,8 @@ class TodoController extends Controller
             $todos = $stmt->fetchAll();
             if ($todos) {
                 return $this->c->view->render($response, 'todos.twig', [
-                    'todos' => $todos,
+                    'todos'        => $todos,
+                    'todo_message' => $this->getMessage()
                 ]);
             }
         } catch (PDOException $e) {
@@ -49,4 +61,30 @@ class TodoController extends Controller
             ':user_id' => $_SESSION['user']
         ]);        
     }
+
+    public function create($request, $response)
+    {
+        // Add flash message
+        if (empty($request->getParam('description'))) {
+            return $response->withRedirect($this->c->router->pathFor('todos.index'));            
+        }
+
+        $stmt = $this->c->db->prepare('INSERT INTO todos (todo_done,' .
+                                      ' todo_description, todo_done_at, user_id)' .
+                                      ' VALUES (0, :description, :done_at, :user_id)');
+        $d = new \DateTime();
+        $stmt->execute([
+            ':description' => $request->getParam('description'),
+            ':done_at'     => $d->format('d-m-y'),
+            ':user_id'     => $_SESSION['user']
+        ]);
+        return $response->withRedirect($this->c->router->pathFor('todos.index'));
+    }
+
+    private function getMessage(): string
+    {
+        return $this->todoPlaceholders[rand(0, sizeof($this->todoPlaceholders)-1)];
+    }
+      
+
 }

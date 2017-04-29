@@ -1,14 +1,26 @@
-<nav>
-  <ul>
-    <li><a href="{{ path_for('home') }}">Home</a></li>
-    {% if auth.check %}
-      <li><a href="#">{{ auth.user.user_name }} Profile</a></li>
-      <li><a href="{{ path_for('auth.signout') }}">Logout</a></li>
-      <li><a href="{{ path_for('auth.password.change') }}">Change Password</a></li>
-    {% else %}
-      <li><a href="{{ path_for('auth.signin') }}">Login</a></li>
-      <li><a href="{{ path_for('auth.signup') }}">Register</a></li>
-    {% endif %}
-    <li><a href="{{ path_for('todos.index') }}">Todos</a></li>
-  </ul>
+<nav class="navbar navbar-default">
+  <div class="container">
+
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{{ path_for('home') }}">todo-app</a>      
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="{{ path_for('home') }}">Home</a></li>
+          {% if auth.check %}
+            <li><a href="#">{{ auth.user.user_name }} Profile</a></li>
+            <li><a href="{{ path_for('auth.signout') }}">Logout</a></li>
+            <li><a href="{{ path_for('auth.password.change') }}">Change Password</a></li>
+          {% else %}
+            <li><a href="{{ path_for('auth.signin') }}">Login</a></li>
+            <li><a href="{{ path_for('auth.signup') }}">Register</a></li>
+          {% endif %}
+          <li><a href="{{ path_for('todos.index') }}">Todos</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
 </nav>

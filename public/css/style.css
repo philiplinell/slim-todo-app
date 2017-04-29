@@ -1,0 +1,12 @@
+@media (min-width: 992px) {
+    .login-box {
+        padding-top: 40px;
+    }
+}
+li.item-done {
+    text-decoration: line-through;
+}
+
+a.mark-link {
+    float: right;
+}
