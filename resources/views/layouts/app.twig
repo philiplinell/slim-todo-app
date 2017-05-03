@@ -1,9 +1,10 @@
+{% set _title = block('title') %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %}</title>
+    <title>Todoapp{% if _title is not empty %} | {{ _title }}{% endif %}</title>
     <link href="{{ base_url() }}/css/bootstrap.css" rel="stylesheet">
     <link href="{{ base_url() }}/css/style.css" rel="stylesheet">
   </head>
