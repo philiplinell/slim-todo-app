@@ -3,7 +3,21 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-  <h1>Start Page</h1>
-  <p>Welcome to <em>todo-app</em>! </p>
-  <p>No account? Create one <a href="{{ path_for('auth.signup') }}">here</a>.</p>  
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+
+
+      <h1>Start Page</h1>
+      <p>Welcome to <em>todo-app</em>! </p>
+      <br/>
+      {% if auth.user is empty %}
+        <p>Login on the <a href="{{ path_for('auth.signin') }}">login</a> page.</p>
+        <p>No account? Create one <a href="{{ path_for('auth.signup') }}">here</a>.</p>
+      {% else %}
+        <p>See your todos on the <a href="{{ path_for('todos.index') }}">todo</a> page.</p>
+      {% endif %}
+    </div>
+  </div>
+
 {% endblock %}

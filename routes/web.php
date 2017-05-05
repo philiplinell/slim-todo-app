@@ -28,6 +28,8 @@ $app->group('', function() {
     $this->get('/auth/password/change', PasswordController::class . ':getChangePassword')->setName('auth.password.change');
     $this->post('/auth/password/change', PasswordController::class . ':postChangePassword');
 
+    $this->get('/profile', UserController::class . ':profile')->setName('user.profile');
+    
     $this->get('/todos', TodoController::class . ':index')->setName('todos.index');
     $this->get('/todos/setdone/{id}', TodoController::class . ':done')->setName('todos.setdone');
     $this->get('/todos/setundone/{id}', TodoController::class . ':undone')->setName('todos.setundone');

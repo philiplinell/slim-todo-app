@@ -21,4 +21,12 @@ class UserController extends Controller
             'users' => $users,
         ]);
     }
+
+    public function profile($request, $response)
+    {
+
+        return $this->c->view->render($response, 'profile.twig', [
+            'lastLogin' => $_SESSION['last_login']->format('Y-m-d')
+        ]);
+    }
 }

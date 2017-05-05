@@ -9,7 +9,11 @@ use App\Models\User;
 class Auth {
 
     protected $db;
-
+    private static $currentHashAlgorithm = PASSWORD_DEFAULT;
+    private static $currentHashOptions = [
+        'cost' => 15
+    ];
+    
     public function __construct($db)
     {
         $this->db = $db;
@@ -54,6 +58,11 @@ class Auth {
 
             if (password_verify($password, $user->user_pw)) {
                 $_SESSION['user'] = $user->user_id;
+
+                if (passwordNeedsRehash($user) {
+                        rehashPassword($user);
+                    }
+                )
                 return true;
             }
 
@@ -65,6 +74,22 @@ class Auth {
         return false;
     }
 
+    private function passwordNeedsRehash($user):bool
+    {
+        $hashedUserPassword = $user->user_pw;
+        
+        return password_needs_rehash(
+            $hashedUserPassword,
+            self::$currentHashAlgorithm,
+            self::$currentHashOptions
+        );
+    }
+
+    private function rehashPassword($user)
+    {
+        // Rehash password
+    }
+    
     public function logout()
     {
         unset($_SESSION['user']);

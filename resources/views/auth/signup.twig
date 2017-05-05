@@ -4,31 +4,37 @@
 
 
 {% block content %}
- 
-  <h3>Register new user</h3>
-  {% if errors %}
-    <div class="help-block">
-      <ul>
-        {% for error in errors %}
-          {% for message in error %}
-            <li>{{ message }}</li>
+  <div class="register-box">
+    <h3>Register a new user</h3>
+    {% if errors %}
+      <div class="help-block">
+        <ul>
+          {% for error in errors %}
+            {% for message in error %}
+              <li>{{ message }}</li>
             {% endfor %}
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-  <form action="{{ path_for('auth.signup') }}" method="POST">
-    Username <br />
-    <input type="text" name="username" value="{{ old.username }}"/>
-    <br />
-    Email <br />
-    <input type="email" name="email" value="{{ old.email }}"/>
-    <br />
-    Password <br />
-    <input type="password" name="password" />
-    <br />
-    <input type="submit" value="Register">
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
 
-    {{ csrf.field | raw }}
-  </form>
+    <form action="{{ path_for('auth.signup') }}" method="POST">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" class="form-control" value="{{ old.username }}" placeholder="Will Smith"/>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" class="form-control" value="{{ old.email }}" placeholder="smith@example.com"/>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" class="form-control" />
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg center-block">Register</button>
+
+      {{ csrf.field | raw }}
+
+    </form>
+  </div>
 {% endblock %}

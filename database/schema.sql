@@ -5,6 +5,7 @@ CREATE TABLE users(
        user_name           TEXT NOT NULL UNIQUE,
        user_email          TEXT NOT NULL UNIQUE,
        user_pw             TEXT NOT NULL,
+       last_login          TEXT,
        created_at          TEXT,
        updated_at          TEXT
 );

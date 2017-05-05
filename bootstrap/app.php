@@ -26,6 +26,7 @@ $container['auth'] = function ($container) {
 // Register component on container
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
+        'debug' => true,
         'cache' => false
     ]);
     
@@ -33,6 +34,9 @@ $container['view'] = function ($container) {
     $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
 
+    // This line allow the use of {{ dump() }}
+    $view->addExtension(new \Twig_Extension_Debug());
+    
     // Add flash message to all views
     $view->getEnvironment()->addGlobal('flash', $container['flash']);
 

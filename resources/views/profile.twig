@@ -1,0 +1,22 @@
+{% extends 'layouts/app.twig' %}
+
+{% block title %}User Profile{% endblock %}
+
+
+{% block content %}
+  <div class="user-profile-box bordered-container">
+    <h2>User profile</h2>
+    <p>Here you can see your profile information. You can also change your password at the bottom of this page. </p>
+    <h3>User information</h3>
+    <dl class="dl-horizontal">
+      <dt>Username</dt>
+      <dd>{{ auth.user.user_name }}</dd>
+      <dt>Email</dt>
+      <dd>{{ auth.user.user_email }}</dd>
+      <dt>Last login</dt>
+      <dd>{{ lastLogin }}</dd>
+    </dl>
+    <h3>Other</h3>
+    <a href="{{ path_for('auth.password.change') }}" role="button" class="btn btn-default">Change Password</a>
+  </div>
+{% endblock %}

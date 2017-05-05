@@ -27,11 +27,16 @@ class TodoController extends Controller
             $stmt->setFetchMode(PDO::FETCH_CLASS, Todo::class);
             $todos = $stmt->fetchAll();
             if ($todos) {
-                return $this->c->view->render($response, 'todos.twig', [
-                    'todos'        => $todos,
-                    'todo_message' => $this->getMessage()
-                ]);
+                $doneTodos = count(array_filter($todos, function($todo) {
+                    return $todo->todo_done;
+                }));
             }
+
+            return $this->c->view->render($response, 'todos.twig', [
+                'todos'        => $todos,
+                'done_todos'   => $doneTodos,
+                'todo_message' => $this->getMessage()
+            ]);
         } catch (PDOException $e) {
             // Post to logger
             var_dump($e->getMessage());
