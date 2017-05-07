@@ -34,7 +34,7 @@ class TodoController extends Controller
 
             return $this->c->view->render($response, 'todos.twig', [
                 'todos'        => $todos,
-                'done_todos'   => $doneTodos,
+                'done_todos'   => $doneTodos ?? '0',
                 'todo_message' => $this->getMessage()
             ]);
         } catch (PDOException $e) {
