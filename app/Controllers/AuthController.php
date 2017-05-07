@@ -6,6 +6,7 @@ use App\Models\User;
 use PDO;
 use PDOException;
 use Respect\Validation\Validator as v;
+use App\Auth\Auth;
 
 class AuthController extends Controller
 {
@@ -80,7 +81,8 @@ class AuthController extends Controller
                                         VALUES (:user_pw, :user_name, :user_email, :last_login) ");
 
         $d = new \DateTime();
-        $userPassword = password_hash($params['password'], PASSWORD_DEFAULT);
+        $userPassword = password_hash($params['password'], Auth::$currentHashAlgorithm, Auth::$currentHashOptions);
+        
         $stmt->bindParam(':user_pw', $userPassword);
         $stmt->bindParam(':user_name', $params['username']);
         $stmt->bindParam(':user_email', $params['email']);
