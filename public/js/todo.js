@@ -3,11 +3,15 @@ $(document).ready(function() {
         // Disable checkbox until we are done
         let checkbox = $(this);
         checkbox.prop('disabled', true);
+
+        // Show spinner
         let spinner = checkbox.siblings('img');
-        spinner.show();
+        spinner.show(500);
+
         let todoItem = checkbox.closest('li');
         let todoID = todoItem.data('todo-id');
         let todoURL = todoItem.data('todo-link');
+
         // As in 'was done before we clicked the item'
         let wasDone = !$(this).is(":checked");
         $.ajax(todoURL, {
