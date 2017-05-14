@@ -27,12 +27,16 @@ $app->group('', function() {
     $this->get('/auth/signout', AuthController::class . ':getSignOut')->setName('auth.signout');
     $this->get('/auth/password/change', PasswordController::class . ':getChangePassword')->setName('auth.password.change');
     $this->post('/auth/password/change', PasswordController::class . ':postChangePassword');
-
+    
     $this->get('/profile', UserController::class . ':profile')->setName('user.profile');
     
     $this->get('/todos', TodoController::class . ':index')->setName('todos.index');
     $this->get('/todos/setdone/{id}', TodoController::class . ':done')->setName('todos.setdone');
     $this->get('/todos/setundone/{id}', TodoController::class . ':undone')->setName('todos.setundone');
+
+    $this->post('/todos/setdone', TodoController::class . ':done')->setName('todos.post.setdone');
+    $this->post('/todos/setundone', TodoController::class . ':undone')->setName('todos.post.setundone');
+    
     $this->post('/todos/create', TodoController::class . ':create')->setName('todos.create');
 })->add(new AuthMiddleware($container));
 

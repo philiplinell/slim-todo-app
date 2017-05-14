@@ -5,20 +5,26 @@
 {% block content %}
   <h1 class="text-center">Todos <small>{{ done_todos }}/{{ todos | length }}</small></h1>
 
-  
+
   {% if todos is defined %}
-    <ul class="list-group todo-list">
+    <ul class="list-group">
+      <form action="">
       {% for todo in todos %}
         {% if todo.todo_done == 1 %}
-          <li class="list-group-item item-done disabled">{{ todo.todo_description }}
-            <small><a class="mark-link" href="{{ path_for('todos.setundone', { id: todo.todo_id }) }}">Mark as not done</a></small>
+          <li class="todo-item list-group-item item-done disabled" data-todo-id="{{ todo.todo_id }}" data-todo-link="{{ path_for('todos.post.setundone') }}">
+            <input name="" type="checkbox" value="" checked/>
+            <span class="todo-description item-done">{{ todo.todo_description }}</span>
+            <img class="img-spinner" src="{{ base_url() }}/img/icons/spin.gif" alt="" />
           </li>
         {% else %}
-          <li class="list-group-item">{{ todo.todo_description }}
-            <small><a class="mark-link" href="{{ path_for('todos.setdone', { id: todo.todo_id }) }}">Mark done</a></small>
+          <li class="todo-item list-group-item" data-todo-id="{{ todo.todo_id }}" data-todo-link="{{ path_for('todos.post.setdone') }}">
+            <input name="" type="checkbox" value=""/>
+            <span class="todo-description">{{ todo.todo_description }}</span>
+            <img class="img-spinner" src="{{ base_url() }}/img/icons/spin.gif" alt="" />
           </li>
         {% endif %}
       {% endfor %}
+      </form>
     </ul>
   {% else %}
     <p>You don't have any todos yet. Add todos below.</p>

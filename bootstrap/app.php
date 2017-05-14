@@ -29,14 +29,14 @@ $container['view'] = function ($container) {
         'debug' => true,
         'cache' => false
     ]);
-    
+
     // Instantiate and add Slim specific extension
     $basePath = rtrim(str_ireplace('index.php', '', $container['request']->getUri()->getBasePath()), '/');
     $view->addExtension(new Slim\Views\TwigExtension($container['router'], $basePath));
 
     // This line allow the use of {{ dump() }}
     $view->addExtension(new \Twig_Extension_Debug());
-    
+
     // Add flash message to all views
     $view->getEnvironment()->addGlobal('flash', $container['flash']);
 
@@ -45,7 +45,7 @@ $container['view'] = function ($container) {
         'check' => $container->auth->check(),
         'user' => $container->auth->user(),
     ]);
-    
+
     return $view;
 };
 
@@ -53,7 +53,7 @@ $container['view'] = function ($container) {
 $container['db'] = function($container) {
     $pdo = new PDO("sqlite:" . __DIR__ . '/../database/todoapp.db');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $pdo;  
+    return $pdo;
 };
 
 // Validator

@@ -30,11 +30,19 @@
 /**
  * -------- Todo --------
  */
-li.item-done {
+.todo-description.item-done {
   text-decoration: line-through; }
 
 a.mark-link {
   float: right; }
+
+.todo-item > input[type='checkbox'] {
+  margin: 0 10px 0 0;
+  width: 15px;
+  height: 15px; }
+
+.img-spinner {
+  display: none; }
 
 /**
  * -------- Navigation --------
