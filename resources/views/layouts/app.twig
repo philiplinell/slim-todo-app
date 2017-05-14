@@ -7,6 +7,7 @@
     <title>Todoapp{% if _title is not empty %} | {{ _title }}{% endif %}</title>
     <link href="{{ base_url() }}/css/bootstrap.css" rel="stylesheet">
     <link href="{{ base_url() }}/css/style.css" rel="stylesheet">
+    <script src="{{ base_url() }}/js/jquery-3.2.1.js"></script>
   </head>
   <body>
     {% include 'partials/navigation.twig' %}
@@ -20,5 +21,6 @@
     </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="{{ base_url() }}/js/bootstrap.min.js"></script>
+    <script src="{{ base_url() }}/js/main.js"></script>
   </body>
 </html>
