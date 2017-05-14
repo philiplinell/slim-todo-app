@@ -7,7 +7,7 @@
 
   
   {% if todos is defined %}
-    <ul class="list-group">
+    <ul class="list-group todo-list">
       {% for todo in todos %}
         {% if todo.todo_done == 1 %}
           <li class="list-group-item item-done disabled">{{ todo.todo_description }}
