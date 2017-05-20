@@ -6,14 +6,15 @@ use PDO;
 use PDOException;
 use App\Models\User;
 
-class Auth {
+class Auth
+{
 
     protected $db;
     public static $currentHashAlgorithm = PASSWORD_DEFAULT;
     public static $currentHashOptions = [
         'cost' => 14
     ];
-    
+
     public function __construct($db)
     {
         $this->db = $db;
@@ -30,19 +31,18 @@ class Auth {
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_CLASS, User::class);
             $user = $stmt->fetch();
-
             return $user;
         } catch (PDOException $e) {
             // TODO logg $e message
             return false;
         }
     }
-    
+
     public function check()
     {
         return isset($_SESSION['user']);
     }
-    
+
     public function attempt($email, $password)
     {
         $stmt = $this->db->prepare('SELECT * FROM users WHERE user_email = :user_email');
@@ -51,7 +51,7 @@ class Auth {
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_CLASS, User::class);
             $user = $stmt->fetch();
-                
+
             if (!$user) {
                 return false;
             }
@@ -76,7 +76,7 @@ class Auth {
     private function passwordNeedsRehash($user):bool
     {
         $hashedUserPassword = $user->user_pw;
-        
+
         return password_needs_rehash(
             $hashedUserPassword,
             self::$currentHashAlgorithm,
@@ -97,7 +97,7 @@ class Auth {
             )
         ]);
     }
-    
+
     public function logout()
     {
         unset($_SESSION['user']);
@@ -119,6 +119,5 @@ class Auth {
             // TODO: Logg error
             return false;
         }
-                                  
     }
 }

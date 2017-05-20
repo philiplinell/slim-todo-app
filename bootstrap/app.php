@@ -50,7 +50,7 @@ $container['view'] = function ($container) {
 };
 
 // Database
-$container['db'] = function($container) {
+$container['db'] = function ($container) {
     $pdo = new PDO("sqlite:" . __DIR__ . '/../database/todoapp.db');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $pdo;

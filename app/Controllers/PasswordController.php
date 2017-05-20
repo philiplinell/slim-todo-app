@@ -6,7 +6,8 @@ use PDO;
 use PDOException;
 use Respect\Validation\Validator as v;
 
-class PasswordController extends Controller {
+class PasswordController extends Controller
+{
 
     public function getChangePassword($request, $response)
     {
@@ -33,5 +34,4 @@ class PasswordController extends Controller {
         }
         return $response->withRedirect($this->c->router->pathFor('auth.password.change'));
     }
-    
 }

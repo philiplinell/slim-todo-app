@@ -27,7 +27,7 @@ class TodoController extends Controller
             $stmt->setFetchMode(PDO::FETCH_CLASS, Todo::class);
             $todos = $stmt->fetchAll();
             if ($todos) {
-                $doneTodos = count(array_filter($todos, function($todo) {
+                $doneTodos = count(array_filter($todos, function ($todo) {
                     return $todo->todo_done;
                 }));
             }
@@ -69,8 +69,10 @@ class TodoController extends Controller
         }
     }
 
-    private function markTodoAsDone(int $id, bool $status = true) {
-        $stmt = $this->c->db->prepare('UPDATE todos SET todo_done = :status WHERE todo_id = :id AND user_id = :user_id');
+    private function markTodoAsDone(int $id, bool $status = true)
+    {
+        $stmt = $this->c->db->prepare('UPDATE todos SET todo_done = :status ' .
+                                      'WHERE todo_id = :id AND user_id = :user_id');
         $statusAsInt = $status ? 1 : 0;
         $stmt->execute([
             ':status' => $statusAsInt,
@@ -102,5 +104,4 @@ class TodoController extends Controller
     {
         return $this->todoPlaceholders[rand(0, sizeof($this->todoPlaceholders)-1)];
     }
-
 }

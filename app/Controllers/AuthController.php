@@ -101,5 +101,4 @@ class AuthController extends Controller
 
         return $response->withRedirect($this->c->router->pathFor('todos.index'));
     }
-
 }
