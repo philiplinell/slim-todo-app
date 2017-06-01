@@ -10,14 +10,17 @@ class Auth
 {
 
     protected $db;
+    protected $container;
+
     public static $currentHashAlgorithm = PASSWORD_DEFAULT;
     public static $currentHashOptions = [
         'cost' => 14
     ];
 
-    public function __construct($db)
+    public function __construct($container)
     {
-        $this->db = $db;
+        $this->container = $container;
+        $this->db = $this->container['db'];
     }
 
     public function user()
@@ -33,7 +36,8 @@ class Auth
             $user = $stmt->fetch();
             return $user;
         } catch (PDOException $e) {
-            // TODO logg $e message
+            $this->container['logger']->error('Could not fetch user with user_id  ' . $_SESSION['user']);
+            $this->container['logger']->error($e->getMessage());
             return false;
         }
     }
@@ -64,10 +68,10 @@ class Auth
                 }
                 return true;
             }
-
         } catch (PDOException $e) {
-            var_dump($e->getMessage());
-            // TODO: Log error
+            $this->container['logger']->error('Error when attempting user login. ');
+            $this->container['logger']->error($e->getMessage());
+
             return false;
         }
         return false;
@@ -111,12 +115,10 @@ class Auth
         $stmt->bindParam(':user_id', $this->user()->user_id);
         try {
             $stmt->execute();
-
             return true;
         } catch (PDOException $e) {
-            var_dump($e->getMessage());
-            die();
-            // TODO: Logg error
+            $this->container['logger']->error('Could not change password. ');
+            $this->container['logger']->error($e->getMessage());
             return false;
         }
     }

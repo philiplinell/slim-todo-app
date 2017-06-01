@@ -38,8 +38,7 @@ class TodoController extends Controller
                 'todo_message' => $this->getMessage()
             ]);
         } catch (PDOException $e) {
-            // Post to logger
-            var_dump($e->getMessage());
+            $this->c->logger->error($e->getMessage());
         }
 
         return $this->c->view->render($response, 'todos.twig');

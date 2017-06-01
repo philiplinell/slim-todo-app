@@ -18,9 +18,18 @@ $container['flash'] = function ($container) {
     return new \Slim\Flash\Messages();
 };
 
+// Logger
+$container['logger'] = function($container) {
+    $logger = new \Monolog\Logger('my_logger');
+
+    $file_handler = new \Monolog\Handler\StreamHandler("../logs/app.log", \Monolog\Logger::DEBUG);
+    $logger->pushHandler($file_handler);
+    return $logger;
+};
+
 // Authentication
 $container['auth'] = function ($container) {
-    return new \App\Auth\Auth($container['db']);
+    return new \App\Auth\Auth($container);
 };
 
 // Register component on container
